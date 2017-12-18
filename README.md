@@ -1,3 +1,2 @@
-# ZigZag game using javascript, nodejs and mongodb
-A gaming platform where registered users can play
-the game.
+# ZigZag game using javascript, nodejs, phaser and mongodb
+A gaming platform where one can play ZigZag game and have fun:)
