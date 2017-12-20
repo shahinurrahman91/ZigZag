@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+var emailCheck = require('email-check');
+const config = require('../config/database');
 
 //********* DB Models *********
 const User = require('../models/user');
@@ -12,6 +14,11 @@ const User = require('../models/user');
 //Register Form
 router.get('/register', (req, res)=>{
     res.render("register");
+});
+
+//Register Form
+router.get('/gallery', (req, res)=>{
+    res.render("gallery");
 });
 
 // Register Form Post
@@ -31,10 +38,13 @@ router.post('/register', (req, res)=>{
     req.checkBody('password2',  'Password do not match').equals(password);
 
     const errors = req.validationErrors();
-
     if(errors){
-        res.render('register', {errors: errors});
+
+        req.flash('success',  'Please confirm your password!');
+        res.redirect('/users/register');
     }else{
+
+
         // create a new user
         const newUser = new User({
             name: name,
@@ -43,21 +53,35 @@ router.post('/register', (req, res)=>{
             password: password
         });
 
-        // encrypt password
-        bcrypt.genSalt(10, (err, salt)=>{
-            bcrypt.hash(newUser.password, salt, (err, hash)=>{
-                if(err){console.log(err)}
-                else{
-                    newUser.password = hash;
-                    newUser.save((err)=> {
-                        if(err){ console.log(err); res.redirect('/');}
+
+        // Check if email or username already exists
+        User.find({$or: [{email: email}, {username: username}]}, (err, user)=>{
+            console.log(user);
+            if(err) throw err;
+            if(user == ""){
+
+
+                // encrypt password
+                bcrypt.genSalt(10, (err, salt)=>{
+                    bcrypt.hash(newUser.password, salt, (err, hash)=>{
+                        if(err){console.log(err)}
                         else{
-                            req.flash('success',  'You are now register and can login.');
-                            res.redirect('/users/login');
+                            newUser.password = hash;
+                            newUser.save((err)=> {
+                                if(err){ console.log(err); res.redirect('/');}
+                                else{
+                                    req.flash('success',  'You are now register and can login.');
+                                    res.redirect('/users/login');
+                                }
+                            });
                         }
                     });
-                }
-            });
+                });
+            }
+            else {
+                req.flash('success',  'Your email or username already exists.');
+                res.redirect('/users/register');
+            }
         });
     }
 });

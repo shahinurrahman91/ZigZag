@@ -1,8 +1,8 @@
-<<<<<<< HEAD
+
 # ZigZag game using javascript, nodejs and mongodb
 A gaming platform where registered users can play
 the game.
-=======
+
 # ZigZag
 
 This is a game in which we are using Phaser, a challenging game which is very fun to play and required basic skill to play. The game is consist of a player where user will try to survive on his own to make his way all the way to top in the leader-board. User will be able to challenge any registered player in one to one battle where the winner will be chosen on the basis of high-score. SO, good luck ! Have fun and enjoy.
@@ -36,5 +36,8 @@ See also the list of [contributors](https://github.com/your/project/contributors
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+9ee67e6f37cc7e35d0f1502666aeda697c87d2a3
 
->>>>>>> 9ee67e6f37cc7e35d0f1502666aeda697c87d2a3
+# ZigZag game using javascript, nodejs, socketio, phaser and mongodb
+A gaming platform where one can play ZigZag game and have fun:)
+
