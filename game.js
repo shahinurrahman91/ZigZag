@@ -2,12 +2,21 @@ var game;
 //adding background color as hex value
 var bgColors = [0xF16745, 0xFFC65D, 0x7BC8A4, 0x4CC3D9, 0x93648D, 0x7c786a,
  0x588c73, 0x8c4646, 0x2a5b84, 0x73503c];
- var tunnelWidth = 256;
+var tunnelWidth = 256;
  
- var shipHorizontalSpeed = 100; // this will determine speed movement horizontally
- var shipMoveDelay = 0;
+var shipHorizontalSpeed = 100; // this will determine speed movement horizontally
+var shipMoveDelay = 0;
 
- window.onload = function() {	
+// this speed will help the ship rise at the top in 15 sec
+var shipVerticalSpeed = 15000;
+//swipeDistance tells us any momvement greater than 10px will considers as swipe
+var swipeDistance = 10;
+//this will set the barrier speed
+var barrierSpeed = 280;
+// distance between the barriers 
+var barrierGap = 120;
+
+window.onload = function() {	
 	game = new Phaser.Game(640, 960, Phaser.AUTO, "");
 	//Boot state: in the boot state we will make all adjustment to the game to be resized accordingly to browser 
 	//resolution and aspect ratio
@@ -58,6 +67,8 @@ preload.prototype = {
 		  game.load.image("tunnelbg", "assets/sprites/tunnelbg.png");
           game.load.image("wall", "assets/sprites/wall.png");
 		  game.load.image("ship", "assets/sprites/ship.png");
+          game.load.image("barrier", "assets/sprites/barrier.png");
+          game.load.image("smoke", "assets/sprites/smoke.png");
 	},
   	create: function(){
 		this.game.state.start("TitleScreen");
@@ -121,17 +132,47 @@ playGame.prototype = {
 			this.ship = game.add.sprite(this.shipPositions[0], 860, "ship");
 			// to keep track of the side
 			this.ship.side =0;
-			
+			this.ship.destroyed = false;
 			this.ship.canMove = true;
-			
+			this.ship.canSwipe = false;
 			this.ship.anchor.set(0.5);
-		  
+		    //add.emitter(x, y, max) places a particle emitter in position x, y capable of emitting up to max particles at the same time.
+            this.smokeEmitter = game.add.emitter(this.ship.x, this.ship.y + 10, 20);
+            //will use the smoke 
+            this.smokeEmitter.makeParticles("smoke");
+            
+            //respectively set the horizontal and vertical speed of each particle as a random value from min to max pixels by second.
+            this.smokeEmitter.setXSpeed(-15, 15);
+            this.smokeEmitter.setYSpeed(50, 150);
+            
+            this.smokeEmitter.setAlpha(0.5, 1);
+            //start(explode, lifespan, frequency)
+            this.smokeEmitter.start(false, 1000, 40);
+            
 			// physics.enable(object, system) creates a default physics body on object using system physics system. 
 			game.physics.enable(this.ship, Phaser.Physics.ARCADE);
 			//onDown will register player tap or click
 			game.input.onDown.add(this.moveShip, this);
+            // canSwipe is also set to false when the player releases the input – mouse or finger – from the game
+            game.input.onUp.add(function(){
+                this.ship.canSwipe = false;
+            }, this);
+            
+            this.verticalTween = game.add.tween(this.ship).to({
+                y: 0
+            },shipVerticalSpeed, Phaser.Easing.Linear.None, true);
+            
+            //it contains all the barrier 
+            this.barrierGroup = game.add.group();
+            //barrier is the variable and Barrier is thename of the new class  
+            var barrier = new Barrier(game, barrierSpeed, tintColor);
+            // adding the barrier group to the group
+            this.barrierGroup = game.add.group();
+            //adding barrier to the barrier group
+            this.addBarrier(this.barrierGroup, tintColor);
 		},
 		moveShip: function(){
+            this.ship.canSwipe = true;
 			// only prompt if this.ship.canMove is true 
 			if(this.ship.canMove){
 			// then canMove set to false until animation is done
@@ -146,11 +187,107 @@ playGame.prototype = {
                          this.ship.canMove = true;
                     }, this);
                }, this);
-          }
-     }  
+            
+                //adding the gost effect on the player
+                var ghostShip = game.add.sprite(this.ship.x, this.ship.y, "ship");
+                ghostShip.alpha = 0.5;
+                ghostShip.anchor.set(0.5);
+                var ghostTween = game.add.tween(ghostShip).to({
+                    alpha: 0
+                }, 350, Phaser.Easing.Linear.None, true);
+                ghostTween.onComplete.add(function(){
+                ghostShip.destroy();
+                });
+            }
+        },
+        update: function(){
+            this.smokeEmitter.x = this.ship.x;
+            this.smokeEmitter.y = this.ship.y;
+            
+            // checking for the 10px swipe distance
+            if(this.ship.canSwipe){
+                if(Phaser.Point.distance(game.input.activePointer.positionDown,
+                                         game.input.activePointer.position) > swipeDistance){
+                    this.restartShip();
+                }
+            }
+            if(!this.ship.destroyed){
+            game.physics.arcade.collide(this.ship, this.barrierGroup, function(s, b){
+                this.ship.destroyed = true
+                this.smokeEmitter.destroy();
+                var destroyTween = game.add.tween(this.ship).to({
+                    x: this.ship.x + game.rnd.between(-100, 100),
+                    y: this.ship.y - 100,
+                    rotation: 10
+                }, 1000, Phaser.Easing.Linear.None, true);
+                destroyTween.onComplete.add(function(){
+                    var explosionEmitter = game.add.emitter(this.ship.x,
+                        this.ship.y, 200);
+                    explosionEmitter.makeParticles("smoke");
+                    explosionEmitter.setAlpha(0.5, 1);
+                    explosionEmitter.minParticleScale = 0.5;
+                    explosionEmitter.maxParticleScale = 2;
+                    explosionEmitter.start(true, 2000, null, 200);
+                    this.ship.destroy();
+                        game.time.events.add(Phaser.Timer.SECOND * 2, function(){
+                            game.state.start("GameOverScreen");
+                        });
+                    }, this);
+                }, null, this)
+            }
+        },
+    //this function will reset the player to the bottom of the screen
+        restartShip: function(){
+            //when called this will prevent from further swipe
+            this.ship.canSwipe = false;
+            //will stop the vertical speed
+            this.verticalTween.stop();
+            
+            this.verticalTween = game.add.tween(this.ship).to({
+                y: 860
+            }, 100,Phaser.Easing.Linear.None, true);
+            this.verticalTween.onComplete.add(function(){
+                this.verticalTween = game.add.tween(this.ship).to({
+                    y: 0
+                }, shipVerticalSpeed, Phaser.Easing.Linear.None, true);
+            }, this)
+        },
+        addBarrier: function(group, tintColor){
+            var barrier = new Barrier(game, barrierSpeed, tintColor);
+            game.add.existing(barrier);
+            group.add(barrier);
+        }
 }
 
 
 var gameOverScreen = function(game){};
-gameOverScreen.prototype = {    
+gameOverScreen.prototype = {
+    create:function(){
+        console.log("game over");
+    }
+}
+
+Barrier = function (game, speed, tintColor) {
+     var positions = [(game.width - tunnelWidth) / 2, (game.width + tunnelWidth) / 2];
+     var position = game.rnd.between(0, 1);
+	 Phaser.Sprite.call(this, game, positions[position], -100, "barrier");
+     var cropRect = new Phaser.Rectangle(0, 0, tunnelWidth / 2, 24);
+     this.crop(cropRect);
+	 game.physics.enable(this, Phaser.Physics.ARCADE);
+     this.anchor.set(position, 0.5);
+     this.tint = tintColor;     
+     this.body.velocity.y = speed;
+     this.placeBarrier = true;
+};
+
+Barrier.prototype = Object.create(Phaser.Sprite.prototype);
+Barrier.prototype.constructor = Barrier;
+Barrier.prototype.update = function(){
+    if(this.placeBarrier && this.y > barrierGap){
+        this.placeBarrier = false;
+        playGame.prototype.addBarrier(this.parent, this.tint);
+    }
+    if(this.y > game.height){
+        this.destroy();
+    }
 }
