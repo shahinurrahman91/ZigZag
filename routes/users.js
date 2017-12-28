@@ -36,6 +36,11 @@ router.get('/instruction', (req, res)=>{
     res.render("instruction");
 });
 
+//Article/ Reviews
+router.get('/articles/add', (req, res)=>{
+    res.render("add-article");
+});
+
 
 
 // Register Form Post
