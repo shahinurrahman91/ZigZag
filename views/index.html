@@ -1,8 +1,15 @@
 <% include header.html %>
     <% if(user){ %>
         <h1>
-            Reviews
+            You can play now!
         </h1>
+
+        <h2>
+            <iframe src="http://localhost:63342/ZigZag/index.html?_ijt=em6mbea5b9rtitefmg8hv4fcpb" width="1200" height="600"></iframe>
+        </h2>
+        <h3>
+            Reviews
+        </h3>
         <ul class="list-group">
             <% articles.forEach((article)=>{ %>
                 <a href="/article/<%= article._id %>">
@@ -13,6 +20,6 @@
                 <% });  %>
         </ul>
         <% }else{ %>
-            <h1>Login to Play the Game</h1>
+            <h1>Log In to Play the Game</h1>
             <% } %>
 <% include footer.html %>

@@ -60,7 +60,7 @@ router.post('/articles/add', ensureAuthenticated, (req, res)=>{
                 console.log(err);   
                 res.redirect('/articles/add');
             } else{ 
-                req.flash('success', 'Article Added');
+                req.flash('success', 'Review Added');
                 res.redirect('/'); 
             }
         });
