@@ -30,6 +30,7 @@ For the versions available, see the [tags on this repository]
 ## Authors
 
 * **Tanvir Rahman Ovi** - *Initial work* 
+* **Shahinur Rahman**
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 

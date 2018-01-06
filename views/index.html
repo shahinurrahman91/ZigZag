@@ -1,25 +1,32 @@
 <% include header.html %>
-    <% if(user){ %>
-        <h1>
-            You can play now!
-        </h1>
+<% if(user){ %>
+<h1>
+    You can play now!
 
-        <h2>
-            <iframe src="http://localhost:63342/ZigZag/index.html?_ijt=em6mbea5b9rtitefmg8hv4fcpb" width="1200" height="600"></iframe>
-        </h2>
-        <h3>
-            Reviews
-        </h3>
-        <ul class="list-group">
-            <% articles.forEach((article)=>{ %>
-                <a href="/article/<%= article._id %>">
-                    <li class="list-group-item">
-                        <%= article.title %>
-                    </li>
-                </a>
-                <% });  %>
-        </ul>
-        <% }else{ %>
-            <h1>Log In to Play the Game</h1>
-            <% } %>
-<% include footer.html %>
+</h1>
+
+<h2><!--<script type ="text/javascript" src ="../engine/engine.js"/>-->
+    <script src="/js/phaser.min.js"></script>
+    <script src="js/game.js"></script>
+
+
+</h2>
+<h3>
+    Reviews
+</h3>
+<ul class="list-group">
+    <% articles.forEach((article)=>{ %>
+    <a href="/article/<%= article._id %>">
+        <li class="list-group-item">
+            <%= article.title %>
+        </li>
+    </a>
+    <% });  %>
+</ul>
+<% }else{ %>
+<h1>Log In to Play the Game</h1>
+<p>
+    Welcome to the online gaming portal named ZigZag. It is a online gaming platform where only registered users can play the game and have fun! The game is compatible with almost all the popular browser like firefox, chrome and so on. please, find the controlling of the game from the instruction page. So, run with your exciting time.
+</p>
+<% } %>
+<!--<% include footer.html %>-->
