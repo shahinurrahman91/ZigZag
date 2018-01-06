@@ -1,5 +1,6 @@
 var game;
 //adding background color as hex value
+
 var bgColors = [0xF16745, 0xFFC65D, 0x7BC8A4, 0x4CC3D9, 0x93648D, 0x7c786a,
  0x588c73, 0x8c4646, 0x2a5b84, 0x73503c];
  var tunnelWidth = 256;
