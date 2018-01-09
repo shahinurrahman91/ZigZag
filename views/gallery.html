@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<% include header.html %>
 
-</body>
-</html>
+<h1>Welcome to the gallery section</h1>
+<form action="/users/gallery" method="post">
+</form>
+<h2>
+    <head>
+        <script type="text/javascript">
+            <!-->
+            var image1=new Image()
+            image1.src="/images/pic1.PNG"
+            var image2=new Image()
+            image2.src="/images/pic2.PNG"
+            var image3=new Image()
+            image3.src="/images/pic3.PNG"
+            var image4=new Image()
+            image4.src="/images/pic4.PNG"
+
+            //-->
+        </script>
+    </head>
+    <body>
+    <img src="/images/pic1.PNG" name="slide" width="800" height="550">
+    <script type="text/javascript">
+        <!-->
+        var step=1
+        function slideit(){
+            document.images.slide.src=eval("image"+step+".src")
+            if (step<4)
+                step++
+            else
+                step=1
+            setTimeout("slideit()", 2500)
+        }
+        slideit()
+        //-->
+    </script>
+    </body>
+</h2>
+<% include footer.html %>
