@@ -1,14 +1,16 @@
 <% include header.html %>
 <% if(user){ %>
 <h1>
-    You can play now!
+    <div class="welcome">
+        <p class="navbar-right navbar-text"><a href="/">Welcome  <%= user.username %></a></p>
+    </div>
 
 </h1>
 
 <h2><!--<script type ="text/javascript" src ="../engine/engine.js"/>-->
     <script src="/js/phaser.min.js"></script>
-    <script src="js/game.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script src="/js/game.js"></script>
 
 </h2>
 <h3>
