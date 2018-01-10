@@ -1,8 +1,12 @@
 <% include header.html %>
 <% if(user){ %>
+
 <h1>
     <div class="welcome">
         <p class="navbar-right navbar-text"><a href="/">Welcome  <%= user.username %></a></p>
+    </div>
+    <div>
+        Please, allow the pop-up and login email through firebase to play the game!
     </div>
 
 </h1>
@@ -26,9 +30,12 @@
     <% });  %>
 </ul>
 <% }else{ %>
-<h1>Log In to Play the Game</h1>
+<div></div><h1>Log In to Play the Game</h1>
 <p>
     Welcome to the online gaming portal named ZigZag. It is a online gaming platform where only registered users can play the game and have fun! The game is compatible with almost all the popular browser like firefox, chrome and so on. please, find the controlling of the game from the instruction page. So, run with your exciting time.
-</p>
+</p></div>
+<div>
+
+    <img src="/images/Zigzag.png" height="368" width="600"/></div>
 <% } %>
 <!--<% include footer.html %>-->
