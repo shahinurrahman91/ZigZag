@@ -1,8 +1,7 @@
 <<<<<<< HEAD
 
-# ZigZag game using javascript, nodejs and mongodb
-A gaming platform where registered users can play
-the game.
+# ZigZag game using javascript, nodejs, socketio, phaser and mongodb
+A gaming platform where one can play ZigZag game and have fun:)
 
 # ZigZag
 
@@ -31,6 +30,7 @@ For the versions available, see the [tags on this repository]
 ## Authors
 
 * **Tanvir Rahman Ovi** - *Initial work* 
+* **Shahinur Rahman**
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
@@ -41,6 +41,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 =======
 >>>>>>> c2fd7852ac02393483c0c688df4920e115e3af91
-# ZigZag game using javascript, nodejs, socketio, phaser and mongodb
-A gaming platform where one can play ZigZag game and have fun:)
+
 

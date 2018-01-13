@@ -16,10 +16,32 @@ router.get('/register', (req, res)=>{
     res.render("register");
 });
 
-//Register Form
+//News
+router.get('/news', (req, res)=>{
+    res.render("news");
+});
+
+//Gallery
 router.get('/gallery', (req, res)=>{
     res.render("gallery");
 });
+
+//Game
+router.get('/game', (req, res)=>{
+    res.render("game");
+});
+
+//Instruction
+router.get('/instruction', (req, res)=>{
+    res.render("instruction");
+});
+
+//Article/ Reviews
+router.get('/articles/add', (req, res)=>{
+    res.render("add-article");
+});
+
+
 
 // Register Form Post
 router.post('/register', (req, res)=>{
