@@ -1,4 +1,4 @@
-# ZigZag game using javascript, nodejs, socketio, phaser and mongodb
+# ZigZag game using javascript, nodejs, socketio, phaser, firebase database and mongoDB
 A gaming platform where one can play ZigZag game and have fun:)
 
 # ZigZag
@@ -16,7 +16,7 @@ Phaser in the game directory
 Any browser 
 And to support this project github account
 
-## How to play
+## How to get started
 To start up, type in "node server.js" and go to localhost:3000/ in any browser. 
 
 1. Connect local pc with mongo
