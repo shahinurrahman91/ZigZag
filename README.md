@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # ZigZag game using javascript, nodejs, socketio, phaser and mongodb
 A gaming platform where one can play ZigZag game and have fun:)
 
@@ -18,14 +16,20 @@ Phaser in the game directory
 Any browser 
 And to support this project github account
 
+## How to play
+To start up, type in "node server.js" and go to localhost:3000/ in any browser. 
 
-## Contributing
-
-Please read [CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-For the versions available, see the [tags on this repository]
+1. Connect local pc with mongo
+2. run the app.js file
+3. run server.js after app.js
+4. in a browser open localhost:3000
+5. after that please register and login
+6. login should directly open the game
+7. for multi-player you will need to allow pop up in the web browser
+7. after pop up is allowed please refresh the page
+8. that will redirect you to enter a valid Gmail address
+9. after allowing just click on the multi-player button and wait for other player to join
+10. to be able to play multi-player please repeat the steps from 4 to 9.
 
 ## Authors
 
@@ -37,9 +41,5 @@ See also the list of [contributors](https://github.com/your/project/contributors
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-9ee67e6f37cc7e35d0f1502666aeda697c87d2a3
-
-=======
->>>>>>> c2fd7852ac02393483c0c688df4920e115e3af91
 
 
