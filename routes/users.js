@@ -42,6 +42,24 @@ router.get('/articles/add', (req, res)=>{
 });
 
 
+//chat
+router.get('/chat', (req, res)=>{
+    res.render("chat");
+});
+
+
+// chat post
+
+router.post('/chat', (req, res)=>{
+    //res.render("chat");
+    //res.redirect('/users/chat');
+    //return query selector, so dont need jquery
+    res.sendFile(__dirname + '/views/chat.html');
+
+// here was res.sendfile
+});
+
+
 
 // Register Form Post
 router.post('/register', (req, res)=>{
